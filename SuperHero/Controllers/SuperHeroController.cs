@@ -7,28 +7,18 @@ namespace SuperHero.Controllers
     [ApiController]
     public class SuperHeroController : ControllerBase
     {
-        private static List<SuperHero> heroes = new List<SuperHero>
-            {
-                new SuperHero {
-                    Id=1,
-                    Name= "Iron Man",
-                    FirstName="Robert",
-                    LastName="Downie",
-                    Place="Kaliphornia"
-                }
-            };
 
         private readonly DataContext _context;
 
         public SuperHeroController(DataContext context)
         {
-            this._context = context;
+            _context = context;
         }
         [HttpGet]
         public async Task<ActionResult<List<SuperHero>>> Get()
         {
-         
-            return Ok(await _context.SuperHeroes.ToListAsync()); 
+
+            return Ok(await _context.SuperHeroes.ToListAsync());
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<SuperHero>> Get(int id)
@@ -54,7 +44,7 @@ namespace SuperHero.Controllers
         public async Task<ActionResult<SuperHero>> UpdateHero(SuperHero hero)
         {
             var updatedHero = await _context.SuperHeroes.FindAsync(hero.Id);
-            if(updatedHero == null)
+            if (updatedHero == null)
             {
                 return BadRequest("Hero is not found");
             }
@@ -64,7 +54,7 @@ namespace SuperHero.Controllers
             updatedHero.Place = hero.Place;
 
             await _context.SaveChangesAsync();
-         
+
             return Ok(updatedHero);
         }
 
